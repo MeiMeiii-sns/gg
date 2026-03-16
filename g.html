@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Access</title>
+    <style>
+        /* --- General Reset & Body --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        /* --- Modern Login Page --- */
+        #login-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: 350px;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        #login-container h2 {
+            margin-bottom: 20px;
+            font-weight: 300;
+            font-size: 22px;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: background 0.3s ease;
+        }
+
+        input[type="password"]::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        input[type="password"]:focus {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #00d2ff;
+            background: linear-gradient(to right, #3a7bd5, #00d2ff);
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+        }
+
+        #error-msg {
+            color: #ff4d4d;
+            margin-top: 15px;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        /* --- Mindblowing Animation Section --- */
+        #animation-container {
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .animated-text {
+            font-size: 8vw; /* Makes the font almost full screen width */
+            font-weight: 900;
+            text-align: center;
+            line-height: 1.2;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(-100vh) scale(0.5);
+            /* Drop down first, then start pulsing colors and moving around */
+            animation: 
+                dropDown 2s cubic-bezier(0.25, 1, 0.5, 1) forwards, 
+                neonPulse 2s infinite alternate 2s,
+                moveAround 5s ease-in-out infinite 2s;
+        }
+
+        /* 1. Drop down from upward effect */
+        @keyframes dropDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-100vh) scale(0.1) rotateX(45deg);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(10vh) scale(1.1) rotateX(-10deg);
+            }
+            80% {
+                transform: translateY(-5vh) scale(0.95) rotateX(5deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotateX(0);
+            }
+        }
+
+        /* 2. Color changing glow effect */
+        @keyframes neonPulse {
+            0% {
+                color: #fff;
+                text-shadow: 0 0 10px #ff00de, 0 0 20px #ff00de, 0 0 40px #ff00de;
+            }
+            50% {
+                color: #e0f7fa;
+                text-shadow: 0 0 20px #00d2ff, 0 0 40px #00d2ff, 0 0 80px #00d2ff;
+            }
+            100% {
+                color: #fff;
+                text-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14, 0 0 40px #39ff14;
+            }
+        }
+
+        /* 3. Continuous floating and moving effect */
+        @keyframes moveAround {
+            0% {
+                transform: translate(0px, 0px) scale(1) rotate(0deg);
+            }
+            33% {
+                transform: translate(4vw, -5vh) scale(1.05) rotate(3deg);
+            }
+            66% {
+                transform: translate(-4vw, 4vh) scale(0.95) rotate(-3deg);
+            }
+            100% {
+                transform: translate(0px, 0px) scale(1) rotate(0deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-container">
+        <h2>Enter your room number</h2>
+        <div class="input-group">
+            <input type="password" id="passwordInput" placeholder="Room Number" autocomplete="off">
+        </div>
+        <button onclick="attemptLogin()">ENTER</button>
+        <div id="error-msg"></div>
+    </div>
+
+    <div id="animation-container">
+        <div class="animated-text">
+            KMKL <br> လီးစကေးကောင် <br> SYBAU
+        </div>
+    </div>
+
+    <script>
+        function attemptLogin() {
+            const password = document.getElementById('passwordInput').value;
+            const errorMsg = document.getElementById('error-msg');
+            const loginContainer = document.getElementById('login-container');
+            const animationContainer = document.getElementById('animation-container');
+
+            // ADDED '101' to the accepted passwords list here:
+            if (password === 'ok 101' || password === '101' || password === '104' || password === '103') {
+                // Clear error
+                errorMsg.innerText = '';
+                
+                // Fade out login container
+                loginContainer.style.opacity = '0';
+                loginContainer.style.transform = 'scale(0.8)';
+                
+                // Wait for fade out, then show animation
+                setTimeout(() => {
+                    loginContainer.style.display = 'none';
+                    animationContainer.style.display = 'flex';
+                }, 500); // 500ms matches the CSS transition time
+            } else {
+                // Show error message
+                errorMsg.innerText = 'Access Denied. Incorrect Room Number.';
+                document.getElementById('passwordInput').value = ''; // Clear input
+            }
+        }
+
+        // Allow pressing "Enter" on the keyboard to trigger login
+        document.getElementById('passwordInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                attemptLogin();
+            }
+        });
+    </script>
+
+</body>
+</html>
